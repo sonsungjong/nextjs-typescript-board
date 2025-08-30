@@ -11,17 +11,17 @@ export default function LoginBtn({login} : {login : Session | null})
         <>
             {
                 !login ? (
-                    <button onClick={()=>{signIn()}} className='px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition cursor-pointer'>로그인</button>
+                    <button onClick={()=>{signIn()}} className=''>로그인</button>
                 ) : (
-                    <button onClick={()=>{signOut()}} className='px-4 py-2 rounded-lg bg-gray-600 text-white hover:bg-gray-700 transition cursor-pointer'>로그아웃</button>
+                    <button onClick={()=>{signOut()}} className=''>로그아웃</button>
                 )
             }
             
             {
                 !login ? (
-                    <Link href='/register' className='px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition'>회원가입</Link>
+                    <Link href='/register' className=''>회원가입</Link>
                 ) : (
-                    <span className='ml-2 text-sm font-semibold text-gray-700'>{login?.user?.name}</span>
+                    <span className=''>{login?.user?.name}</span>
                 )
             }
         </>
