@@ -36,7 +36,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <nav className="">
+        <nav className="bg-white shadow-md p-4 flex justify-between items-center rounded-b-xl max-w-7xl mx-auto mt-4">
           <Link href="/">게시글</Link>
           <Link href="/write">글쓰기</Link>
           {/* 로그인/회원가입, 로그아웃/이름 : 구글로그인, 깃허브로그인, 자체DB로그인 */}
