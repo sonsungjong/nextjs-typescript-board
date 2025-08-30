@@ -18,12 +18,12 @@ export default async function handler(req : NextApiRequest, res: NextApiResponse
     try{
         console.log('/api/auth/signup')
         if(req.method === "POST"){
-            let hash = await bcrypt.hash(req.body?.password, 10);
-            req.body.password = hash;
+            let hash = await bcrypt.hash(req.body?.password, 10);       // DB에 암호화해서 저장
+            req.body.password = hash;       // 암호화한 것으로 교체
 
             let db = (await connectDB).db(dbName)
             await db.collection('user').insertOne(req.body);
-            return res.redirect(302, '/api/auth/signin');
+            return res.redirect(302, '/api/auth/signin');       // 회원가입 됬으면 로그인 페이지로 돌아가게
         }
     }catch(error){
         res.status(500).json({error:'signup failed: '+error})
