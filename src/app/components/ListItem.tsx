@@ -21,7 +21,30 @@ export default function ListItem({result} : {result : PostItem[]})
 
     async function handleDelete(id:string, email?:string)
     {
+        try{
+            // pages/api/delete/list_item.ts 에 보낸다
+            const res = await fetch('/api/delete/list_item',{
+                method:"DELETE",                // GET, POST, DELETE, PUT, PATCH
+                headers:{"Content-Type": "application/json"},           // json 문자열 형태로 송신하겠다
+                body: JSON.stringify({id, email})
+            });
+            const data = await res.json();
+            console.log(data);
 
+            if(res.status === 200){
+                // state에서 해당 항목을 삭제 (화면에도 자동반영 state니깐)
+                setListData((prev)=> prev.filter((item) => item._id !== id));       // 해당 아이디가 아닌 것만 남김
+            }
+            else if(res.status === 400){
+                // 글 작성자만 삭제할 수 있게 아니면 400 응답
+                alert('글 작성자만 삭제할 수 있어요');
+            }else{
+                alert('서버 ERROR');
+            }
+
+        }catch(error){
+            console.error(error);
+        }
     }
 
     return(
