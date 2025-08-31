@@ -5,6 +5,8 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import LoginBtn from "./components/LoginBtn";
+import nav_logo from '@/assets/nav logo.png';
+import Image from "next/image";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,7 +40,9 @@ export default async function RootLayout({
       >
         <nav className="flex items-center justify-between shadow-md p-2">
           <div>
-            로고
+            <Link href="/">
+              <Image src={nav_logo} alt="" height={60} />
+            </Link>
           </div>
           <div className="flex items-center gap-4">
             <Link href="/" className="hover:text-blue-600">게시글</Link>
