@@ -1,0 +1,49 @@
+name: next.js application
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+      - name: Create .env file
+        run: |
+          echo "MONGODB_URL=${{ secrets.MONGODB_URL }}" >> .env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+          echo "GITHUB_ID=${{ secrets.MY_GITHUB_ID }}" >> .env
+          echo "GITHUB_SECRET=${{ secrets.MY_GITHUB_SECRET }}" >> .env
+          echo "GOOGLE_ID=${{ secrets.GOOGLE_ID }}" >> .env
+          echo "NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}" >> .env
+          echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env
+      - name: Build docker image
+        run: docker build -t sonsungjong/nextjs-typescript-board .
+        # docker build -t 깃허브닉네임/레포지토리명 .
+      - name: Login to docker hub
+        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+      - name: Publish image to docker hub
+        run: docker push sonsungjong/nextjs-typescript-board:latest
+        # docker push 도커닉네임/도커레포지토리명:latest
+  deploy:
+    needs: build
+    runs-on: [self-hosted, Linux, x64]
+    steps:
+      - name: Pull image from docker hub
+        run: docker pull sonsungjong/nextjs-typescript-board:latest
+      - name: Delete old container
+        run: docker rm -f nextjs-typescript-board-container
+      - name: Run docker container
+        run: |
+          docker run -d -p 3000:3000 --name nextjs-typescript-board-container \
+          -e MONGODB_URL=${{ secrets.MONGODB_URL }} >> .env \
+          -e DB_NAME=${{ secrets.DB_NAME }} >> .env \
+          -e GITHUB_ID=${{ secrets.MY_GITHUB_ID }} >> .env \
+          -e GITHUB_SECRET=${{ secrets.MY_GITHUB_SECRET }} >> .env \
+          -e GOOGLE_ID=${{ secrets.GOOGLE_ID }} >> .env \
+          -e NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }} >> .env \
+          -e NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} >> .env \
+          sonsungjong/next-typescript-board
