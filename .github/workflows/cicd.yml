@@ -46,4 +46,4 @@ jobs:
           -e GOOGLE_ID=${{ secrets.GOOGLE_ID }} >> .env \
           -e NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }} >> .env \
           -e NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} >> .env \
-          sonsungjong/next-typescript-board
+          sonsungjong/nextjs-typescript-board:latest
