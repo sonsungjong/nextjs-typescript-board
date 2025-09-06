@@ -23,9 +23,11 @@ export default async function handler(req : NextApiRequest, res: NextApiResponse
 
             let db = (await connectDB).db(dbName)
             await db.collection('user').insertOne(req.body);
-            return res.redirect(302, '/api/auth/signin');       // 회원가입 됬으면 로그인 페이지로 돌아가게
+            res.redirect(302, '/api/auth/signin');       // 회원가입 됬으면 로그인 페이지로 돌아가게
+            return;             // 변경
         }
     }catch(error){
         res.status(500).json({error:'signup failed: '+error})
+        return;                 // 변경
     }
 }

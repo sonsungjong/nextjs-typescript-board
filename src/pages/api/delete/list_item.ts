@@ -23,16 +23,19 @@ export default async function handler(req : NextApiRequest, res: NextApiResponse
                     const db = (await connectDB).db(dbName);
                     const result = await db.collection('post').deleteOne({_id: ObjectId.createFromHexString(id)});
                     console.log(result);
-                    return res.status(200).json('삭제완료')
+                    res.status(200).json('삭제완료')            // 변경
+                    return;
                 }else{
                     // 로그인한 이메일과 글의 이메일이 다를 때 안됨
-                    return res.status(400).json({error:'계정 정보가 일치하지 않습니다'})
+                    res.status(400).json({error:'계정 정보가 일치하지 않습니다'})           // 변경
+                    return;
                 }
             }
         }
         catch(error){
             console.error(error)
-            return res.status(500).json({error:error})
+            res.status(500).json({error:error})             // 변경
+            return;
         }
     }
 

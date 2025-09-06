@@ -5,9 +5,9 @@ import { getServerSession } from "next-auth";
 
 interface SlugPageProps
 {
-    params : {
+    params : Promise<{
         slug: string;
-    }
+    }>
 }
 
 const dbName = process.env.DB_NAME || "board";

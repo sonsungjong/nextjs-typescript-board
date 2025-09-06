@@ -15,7 +15,8 @@ export default async function handler(req : NextApiRequest, res: NextApiResponse
         try{
             const session = await getServerSession(req, res, authOptions);
             if(!session){
-                return res.status(401).json({})
+                res.status(401).json({})
+                return;             // 변경
             }
 
             if(req.body.title && req.body.content)
@@ -25,14 +26,17 @@ export default async function handler(req : NextApiRequest, res: NextApiResponse
                     {_id: ObjectId.createFromHexString(req.body.id)},       // 찾기
                     {$set: {title: req.body.title, content: req.body.content}}      // 수정
                 )
-                return res.redirect(302, '/')           // 홈페이지로 보낸다
+                res.redirect(302, '/')           // 홈페이지로 보낸다
+                return;                 // 변경
             }else{
-                return res.status(400).json({error:"빈칸은 허용되지 않습니다."})
+                res.status(400).json({error:"빈칸은 허용되지 않습니다."})
+                return;                 // 변경
             }
         }
         catch(error){
             console.error(error)
-            return res.status(500).json({error:'서버 ERROR'})
+            res.status(500).json({error:'서버 ERROR'})
+            return;                 // 변경
         }
     }
 

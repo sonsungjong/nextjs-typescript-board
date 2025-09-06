@@ -5,9 +5,9 @@ import { ObjectId } from "mongodb";
 
 interface SlugPageProps
 {
-    params : {
+    params : Promise<{
         slug: string;
-    }
+    }>
 }
 
 // DB사용 (.env 파일의 값을 가져온다 || "" : 만약 못가져오면 빈문자)
