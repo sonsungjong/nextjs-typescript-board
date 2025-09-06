@@ -23,11 +23,11 @@ export default async function Detail({params} : SlugPageProps){
     })
 
     return(
-        <div className="">
-            <h4 className="">
+        <div className="max-w-3xl mx-auto p-6">
+            <h4 className="text-xl font-semibold text-blue-600 mb-4">
                 {result?.title}
             </h4>
-            <p className="whitespace-pre-wrap">
+            <p className="whitespace-pre-wrap text-gray-700 leading-relaxed bg-gray-50 p-4 rounded-md shadow-sm">
                 {result?.content}
             </p>
         </div>
